@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postie</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="logo.png" alt="Postie logo">
+            Postie
+        </div>
+        <button class="history-btn glow" onclick="showHistory()">History</button>
+    </nav>
+
+
+    <div class="container">
+        <div class="input-group">
+            <select id="method" class="glow">
+                <option selected>GET</option>
+                <option>POST</option>
+                <option>PUT</option>
+                <option>PATCH</option>
+                <option>DELETE</option>
+            </select>
+            <input type="text" id="url" class="glow" value="https://fertilizertypebysm.onrender.com/fertilizername" />
+            <button class="glow" onclick="sendRequest()">Send</button>
+        </div>
+        <div class="opaque-bg">
+            <div class="tabs">
+                <div class="tab glow active" onclick="showTab(this, 'queryParams')">Query Params</div>
+                <div class="tab glow" onclick="showTab(this, 'headers')">Headers</div>
+                <div class="tab glow" onclick="showTab(this, 'body')">Body</div>
+            </div>
+            <div class="content-area">
+                <div class="line-numbers" id="inputLineNumbers"></div>
+                <div class="text-content" id="bodyContent" contenteditable="true">
+{
+    "temperature": 0.0,
+    "humidity": 0.0,
+    "moisture": 0.0,
+    "soilType": 0,
+    "cropType": 0,
+    "nitrogen": 0,
+    "potassium": 0,
+    "phosphorous": 0
+}</div>
+            </div>
+        </div>
+        <div class="response">
+            <h2>Response</h2>
+            <div class="response-info">
+                <span id="status">Status: 200</span>
+                <span id="time">Time: 1200 ms</span>
+                <span id="size">Size: 96B</span>
+            </div>
+            <div class="opaque-bg">
+                <div class="tabs">
+                    <div class="tab glow active" onclick="showResponseTab(this, 'body')">Response Body</div>
+                    <div class="tab glow" onclick="showResponseTab(this, 'header')">Response Header</div>
+                </div>
+                <div class="content-area">
+                    <div class="line-numbers" id="outputLineNumbers"></div>
+                    <div class="text-content" id="responseBody">
+{
+    "Fertilizername": "20-20"
+}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

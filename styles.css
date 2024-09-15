@@ -1,0 +1,204 @@
+:root {
+
+    --primary-color: #1a1a1a;
+    --secondary-color: #252525;
+    --tertiary-color: #2d2d2d;
+    --quaternary-color: #333333;
+    --accent-color: #4a90e2;
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --font-color: #f0f0f0;
+    --font-color-light: #b0b0b0;
+    --glass-background: rgba(255, 255, 255, 0.05);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --glass-backdrop-filter: blur(10px);
+
+
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--font-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+nav, .history-btn, select, input, button, .tab, .opaque-bg, .content-area {
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: all 0.3s ease;
+}
+
+nav {
+    background: var(--secondary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--font-color);
+}
+
+.logo img {
+    width: 30px;
+    height: auto;
+    margin-right: 10px;
+    filter: brightness(0) saturate(100%) invert(39%) sepia(57%) saturate(2532%) hue-rotate(196deg) brightness(101%) contrast(101%);
+}
+
+.history-btn {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.input-group {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+select, input, button {
+    padding: 8px 12px;
+    margin-right: 10px;
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    background-color: var(--quaternary-color);
+    color: var(--font-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+}
+
+input {
+    flex-grow: 1;
+}
+
+button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #3a7bc8;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background: var(--tertiary-color);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 4px 4px 0 0;
+    color: var(--font-color-light);
+    border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+    background: var(--quaternary-color);
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.opaque-bg {
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.content-area {
+    background: var(--secondary-color);
+    border: 1px solid var(--tertiary-color);
+    display: flex;
+    background: linear-gradient(135deg, var(--glass-background), var(--glass-highlight));
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--accent-color);
+    max-height: 300px; 
+}
+
+.line-numbers {
+    padding: 10px;
+    background: var(--primary-color);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    text-align: right;
+    user-select: none;
+    color: var(--font-color-light);
+    overflow-y: hidden; 
+}
+
+.text-content {
+    flex-grow: 1;
+    padding: 10px;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    overflow-y: auto; 
+}
+
+.response {
+    margin-top: 20px;
+}
+
+.response-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: var(--font-color-light);
+}
+
+
+
+
+
+.glow {
+    position: relative;
+    overflow: hidden;
+}
+
+.glow:hover {
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+}
+
+
+.glow::before {
+    display: none;
+}
