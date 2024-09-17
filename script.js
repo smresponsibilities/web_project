@@ -19,13 +19,11 @@ function showResponseTab(clickedTab, tabName) {
     
     const tabContents = clickedTab.closest('.opaque-bg').getElementsByClassName('tab-content');
     Array.from(tabContents).forEach(content => content.style.display = 'none');
-    document.getElementById(tabName).style.display = 'flex';
-
-
+    document.getElementById(tabName).style.display = 'flex'; // Remove the extra parenthesis
 }
 
 function sendRequest() {
-    const method = document.getElementById('method').value;
+    const method = document.querySelector('.select-selected').textContent;
     const url = document.getElementById('url').value;
     const queryParams = getKeyValuePairs('queryParams');
     const headers = getKeyValuePairs('headers');
@@ -77,10 +75,6 @@ function updateLineNumbers(lineNumbersId, contentId) {
     };
 }
 
-function setDefaultMethod() {
-    document.getElementById('method').value = 'GET';
-}
-
 function addKeyValuePair(tabId) {
     const container = document.querySelector(`#${tabId} .key-value-pairs`);
     const newPair = document.createElement('div');
@@ -120,8 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLineNumbers('inputLineNumbers', 'bodyContent');
 
 
-    setDefaultMethod();
-
     document.getElementById('bodyContent').addEventListener('input', () => updateLineNumbers('inputLineNumbers', 'bodyContent'));
 
     showTab(document.querySelector('.tab'), 'queryParams');
@@ -131,32 +123,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    const select = document.getElementById('method');
-    const backdrop = document.createElement('div');
-    backdrop.classList.add('select-backdrop');
-    document.body.appendChild(backdrop);
-
-    select.addEventListener('focus', positionBackdrop);
-    select.addEventListener('blur', () => backdrop.style.display = 'none');
-
-    function positionBackdrop() {
-        const rect = select.getBoundingClientRect();
-        backdrop.style.top = `${rect.bottom + window.scrollY}px`;
-        backdrop.style.left = `${rect.left + window.scrollX}px`;
-        backdrop.style.width = `${rect.width}px`;
-        backdrop.style.height = `${select.options.length * 40}px`;
-        backdrop.style.display = 'block';
-    }
+    setTimeout(initializeCustomSelect, 100);  
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(initializeCustomSelect, 1);
+}
+
+function initializeCustomSelect() {
     const customSelect = document.querySelector(".custom-select");
     const selectSelected = customSelect.querySelector(".select-selected");
     const selectItems = customSelect.querySelector(".select-items");
 
     selectSelected.addEventListener("click", function(e) {
         e.stopPropagation();
-        closeAllSelect(this);
         selectItems.classList.toggle("select-hide");
         this.classList.toggle("select-arrow-active");
     });
@@ -166,24 +146,15 @@ document.addEventListener('DOMContentLoaded', function() {
         selectOptions[i].addEventListener("click", function(e) {
             const selectedValue = this.textContent;
             selectSelected.textContent = selectedValue;
-            closeAllSelect(this);
+            selectItems.classList.add("select-hide");
+            selectSelected.classList.remove("select-arrow-active");
         });
     }
 
-    function closeAllSelect(elmnt) {
-        const selectItems = document.getElementsByClassName("select-items");
-        const selectSelected = document.getElementsByClassName("select-selected");
-        for (let i = 0; i < selectSelected.length; i++) {
-            if (elmnt != selectSelected[i]) {
-                selectSelected[i].classList.remove("select-arrow-active");
-            }
+    document.addEventListener("click", function(e) {
+        if (!customSelect.contains(e.target)) {
+            selectItems.classList.add("select-hide");
+            selectSelected.classList.remove("select-arrow-active");
         }
-        for (let i = 0; i < selectItems.length; i++) {
-            if (elmnt != selectItems[i]) {
-                selectItems[i].classList.add("select-hide");
-            }
-        }
-    }
-
-    document.addEventListener("click", closeAllSelect);
-});
+    });
+}
