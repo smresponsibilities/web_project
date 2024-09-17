@@ -12,7 +12,10 @@
             <img src="logo.png" alt="Postie logo">
             Postie
         </div>
-        <button class="history-btn glow" onclick="showHistory()">History</button>
+        <button class="history-btn glow" onclick="showHistory()">
+            History
+            <img src="historylogo.png" alt="History icon" class="history-icon">
+        </button>
     </nav>
 
 
@@ -26,7 +29,10 @@
                 <option>DELETE</option>
             </select>
             <input type="text" id="url" class="glow" value="https://fertilizertypebysm.onrender.com/fertilizername" />
-            <button class="glow" onclick="sendRequest()">Send</button>
+            <button class="glow" onclick="sendRequest()">
+                Send
+                <img src="sendlogo.png" alt="Send icon" class="send-icon">
+            </button>
         </div>
         <div class="opaque-bg">
             <div class="tabs">
@@ -35,18 +41,29 @@
                 <div class="tab glow" onclick="showTab(this, 'body')">Body</div>
             </div>
             <div class="content-area">
-                <div class="line-numbers" id="inputLineNumbers"></div>
-                <div class="text-content" id="bodyContent" contenteditable="true">
-{
-    "temperature": 0.0,
-    "humidity": 0.0,
-    "moisture": 0.0,
-    "soilType": 0,
-    "cropType": 0,
-    "nitrogen": 0,
-    "potassium": 0,
-    "phosphorous": 0
-}</div>
+                <div class="tab-content" id="queryParams">
+                    <div class="key-value-pairs"></div>
+                    <button class="add-param-btn glow" onclick="addKeyValuePair('queryParams')">Add Query Param</button>
+                </div>
+                <div class="tab-content" id="headers" style="display: none;">
+                    <div class="key-value-pairs"></div>
+                    <button class="add-param-btn glow" onclick="addKeyValuePair('headers')">Add Header</button>
+                </div>
+                <div class="tab-content" id="body" style="display: none;">
+                    <div class="line-numbers" id="inputLineNumbers"></div>
+                    <div class="text-content" id="bodyContent" contenteditable="true">
+                        {
+                            "temperature": 0.0,
+                            "humidity": 0.0,
+                            "moisture": 0.0,
+                            "soilType": 0,
+                            "cropType": 0,
+                            "nitrogen": 0,
+                            "potassium": 0,
+                            "phosphorous": 0
+                        }
+                    </div>
+                </div>
             </div>
         </div>
         <div class="response">
@@ -58,15 +75,21 @@
             </div>
             <div class="opaque-bg">
                 <div class="tabs">
-                    <div class="tab glow active" onclick="showResponseTab(this, 'body')">Response Body</div>
-                    <div class="tab glow" onclick="showResponseTab(this, 'header')">Response Header</div>
+                    <div class="tab glow active" onclick="showResponseTab(this, 'responseBody')">Response Body</div>
+                    <div class="tab glow" onclick="showResponseTab(this, 'responseHeader')">Response Header</div>
                 </div>
                 <div class="content-area">
                     <div class="line-numbers" id="outputLineNumbers"></div>
-                    <div class="text-content" id="responseBody">
-{
-    "Fertilizername": "20-20"
-}</div>
+                    <div class="tab-content" id="responseBody">
+                        <div class="text-content" id="responseBodyContent">
+                            {
+                                "Fertilizername": "20-20"
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-content" id="responseHeader" style="display: none;">
+                        <div class="text-content" id="responseHeaderContent"></div>
+                    </div>
                 </div>
             </div>
         </div>
