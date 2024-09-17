@@ -21,12 +21,7 @@ function showResponseTab(clickedTab, tabName) {
     Array.from(tabContents).forEach(content => content.style.display = 'none');
     document.getElementById(tabName).style.display = 'flex';
 
-    if (tabName === 'responseBody') {
-        document.getElementById('outputLineNumbers').style.display = 'block';
-        updateLineNumbers('outputLineNumbers', 'responseBodyContent');
-    } else {
-        document.getElementById('outputLineNumbers').style.display = 'none';
-    }
+
 }
 
 function sendRequest() {
@@ -36,7 +31,6 @@ function sendRequest() {
     const headers = getKeyValuePairs('headers');
     const body = document.getElementById('bodyContent').textContent;
 
-    // Build URL with query parameters
     const urlWithParams = new URL(url);
     Object.keys(queryParams).forEach(key => 
         urlWithParams.searchParams.append(key, queryParams[key])
@@ -47,14 +41,12 @@ function sendRequest() {
     console.log('Headers:', headers);
     console.log('Body:', body);
 
-    // Simulate API call
     setTimeout(() => {
         document.getElementById('status').textContent = 'Status: 200';
         document.getElementById('time').textContent = 'Time: 200 ms';
         document.getElementById('size').textContent = 'Size: 96B';
         document.getElementById('responseBodyContent').textContent = '{\n    "Fertilizername": "20-20"\n}';
         
-        // Update response headers
         const responseHeaders = {
             'Content-Type': 'application/json',
             'Server': 'Postie/1.0',
@@ -65,7 +57,6 @@ function sendRequest() {
                 .map(([key, value]) => `${key}: ${value}`)
                 .join('\n');
 
-        updateLineNumbers('outputLineNumbers', 'responseBodyContent');
         showResponseTab(document.querySelector('.tab[onclick*="responseBody"]'), 'responseBody');
     }, 500);
 }
@@ -78,8 +69,9 @@ function updateLineNumbers(lineNumbersId, contentId) {
     const content = document.getElementById(contentId);
     const lineNumbers = document.getElementById(lineNumbersId);
     const lines = content.innerText.split('\n');
-    lineNumbers.innerHTML = lines.map((_, index) => index + 1).join('<br>');
+    lineNumbers.innerHTML = lines.map((_, index) => `<div>${index + 1}</div>`).join('');
 
+    // Synchronize scrolling
     content.onscroll = () => {
         lineNumbers.scrollTop = content.scrollTop;
     };
@@ -120,16 +112,78 @@ function getKeyValuePairs(tabId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const bodyContent = document.getElementById('bodyContent');
+    bodyContent.addEventListener('input', () => {
+        updateLineNumbers('inputLineNumbers', 'bodyContent');
+    });
+
     updateLineNumbers('inputLineNumbers', 'bodyContent');
-    updateLineNumbers('outputLineNumbers', 'responseBodyContent');
+
+
     setDefaultMethod();
 
     document.getElementById('bodyContent').addEventListener('input', () => updateLineNumbers('inputLineNumbers', 'bodyContent'));
 
-    // Show the queryParams tab by default
     showTab(document.querySelector('.tab'), 'queryParams');
 
-    // Add initial key-value pair to Query Params and Headers
     addKeyValuePair('queryParams');
     addKeyValuePair('headers');
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const select = document.getElementById('method');
+    const backdrop = document.createElement('div');
+    backdrop.classList.add('select-backdrop');
+    document.body.appendChild(backdrop);
+
+    select.addEventListener('focus', positionBackdrop);
+    select.addEventListener('blur', () => backdrop.style.display = 'none');
+
+    function positionBackdrop() {
+        const rect = select.getBoundingClientRect();
+        backdrop.style.top = `${rect.bottom + window.scrollY}px`;
+        backdrop.style.left = `${rect.left + window.scrollX}px`;
+        backdrop.style.width = `${rect.width}px`;
+        backdrop.style.height = `${select.options.length * 40}px`;
+        backdrop.style.display = 'block';
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const customSelect = document.querySelector(".custom-select");
+    const selectSelected = customSelect.querySelector(".select-selected");
+    const selectItems = customSelect.querySelector(".select-items");
+
+    selectSelected.addEventListener("click", function(e) {
+        e.stopPropagation();
+        closeAllSelect(this);
+        selectItems.classList.toggle("select-hide");
+        this.classList.toggle("select-arrow-active");
+    });
+
+    const selectOptions = selectItems.getElementsByTagName("div");
+    for (let i = 0; i < selectOptions.length; i++) {
+        selectOptions[i].addEventListener("click", function(e) {
+            const selectedValue = this.textContent;
+            selectSelected.textContent = selectedValue;
+            closeAllSelect(this);
+        });
+    }
+
+    function closeAllSelect(elmnt) {
+        const selectItems = document.getElementsByClassName("select-items");
+        const selectSelected = document.getElementsByClassName("select-selected");
+        for (let i = 0; i < selectSelected.length; i++) {
+            if (elmnt != selectSelected[i]) {
+                selectSelected[i].classList.remove("select-arrow-active");
+            }
+        }
+        for (let i = 0; i < selectItems.length; i++) {
+            if (elmnt != selectItems[i]) {
+                selectItems[i].classList.add("select-hide");
+            }
+        }
+    }
+
+    document.addEventListener("click", closeAllSelect);
 });

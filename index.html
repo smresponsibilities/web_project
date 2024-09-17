@@ -27,16 +27,18 @@
         </button>
     </nav>
 
-
     <div class="container">
         <div class="input-group">
-            <select id="method" class="glow">
-                <option selected>GET</option>
-                <option>POST</option>
-                <option>PUT</option>
-                <option>PATCH</option>
-                <option>DELETE</option>
-            </select>
+            <div class="custom-select">
+                <div class="select-selected">GET</div>
+                <div class="select-items select-hide">
+                    <div>GET</div>
+                    <div>POST</div>
+                    <div>PUT</div>
+                    <div>PATCH</div>
+                    <div>DELETE</div>
+                </div>
+            </div>
             <input type="text" id="url" class="glow" value="https://fertilizertypebysm.onrender.com/fertilizername" />
             <button class="glow" onclick="sendRequest()">
                 Send
@@ -51,11 +53,15 @@
             </div>
             <div class="content-area">
                 <div class="tab-content" id="queryParams">
-                    <div class="key-value-pairs"></div>
+                    <div class="scrollable-content">
+                        <div class="key-value-pairs"></div>
+                    </div>
                     <button class="add-param-btn glow" onclick="addKeyValuePair('queryParams')">Add Query Param</button>
                 </div>
                 <div class="tab-content" id="headers" style="display: none;">
-                    <div class="key-value-pairs"></div>
+                    <div class="scrollable-content">
+                        <div class="key-value-pairs"></div>
+                    </div>
                     <button class="add-param-btn glow" onclick="addKeyValuePair('headers')">Add Header</button>
                 </div>
                 <div class="tab-content" id="body" style="display: none;">
@@ -87,12 +93,12 @@
                     <div class="tab glow" onclick="showResponseTab(this, 'responseHeader')">Response Header</div>
                 </div>
                 <div class="content-area">
-                    <div class="line-numbers" id="outputLineNumbers"></div>
+    
                     <div class="tab-content" id="responseBody">
                         <div class="text-content" id="responseBodyContent">
-                            {
-                                "Fertilizername": "20-20"
-                            }
+{
+    "Fertilizername": "20-20"
+}
                         </div>
                     </div>
                     <div class="tab-content" id="responseHeader" style="display: none;">
@@ -102,6 +108,6 @@
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script async src="script.js"></script>
 </body>
 </html>

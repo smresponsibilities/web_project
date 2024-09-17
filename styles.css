@@ -3,7 +3,7 @@
     --secondary-color: #252525;
     --tertiary-color: #2d2d2d;
     --quaternary-color: #333333;
-    --accent-color: #4da6ff; /* Brighter blue */
+    --accent-color: #4da6ff;
     --background-color: #121212;
     --text-color: #e0e0e0;
     --font-color: #f0f0f0;
@@ -80,6 +80,60 @@ nav {
 .input-group {
     display: flex;
     margin-bottom: 20px;
+    gap: 10px;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding: 8px 30px 8px 12px;
+    color: var(--font-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+select:hover, select:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
+}
+
+select option {
+    background-color: var(--quaternary-color);
+    color: var(--font-color);
+}
+
+select::-webkit-scrollbar {
+    width: 8px;
+}
+
+select::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+select::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 4px;
+}
+
+select {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) rgba(255, 255, 255, 0.1);
+}
+
+select {
+    position: relative;
+    z-index: 10;
 }
 
 select, input, button {
@@ -90,10 +144,14 @@ select, input, button {
     -webkit-backdrop-filter: var(--glass-backdrop-filter);
     border: var(--glass-border);
     box-shadow: var(--glass-shadow);
-    background-color: var(--quaternary-color);
     color: var(--font-color);
-    border: 1px solid var(--accent-color);
     border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+select:hover, input:hover, button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
 }
 
 input {
@@ -101,16 +159,21 @@ input {
 }
 
 button {
-    background: var(--accent-color);
+    background-color: var(--accent-color);
     color: white;
     border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 }
 
 button:hover {
-    background: #66b3ff; /* Lighter blue on hover */
-    box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
+    background-color: #66b3ff;
 }
 
 .tabs {
@@ -158,55 +221,144 @@ button:hover {
 
 .content-area {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 300px;
-    overflow: hidden;
+    padding: 15px;
 }
 
 .tab-content {
-    flex-grow: 1;
-    overflow: auto;
     display: flex;
     flex-direction: column;
+    height: 100%;
+}
+
+.scrollable-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
 }
 
 .key-value-pairs {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding-right: 10px;
-    max-height: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.key-value-pair {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.key-value-pair input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    background-color: rgba(40, 40, 40, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: var(--font-color);
+}
+
+.delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.delete-btn:hover {
+    background-color: #ff6666;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+}
+
+.delete-btn.glow:hover, .delete-btn.glow:focus {
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+}
+
+.add-param-btn {
+    align-self: flex-start;
+    margin-top: 10px;
+    margin-left: 15px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.add-param-btn:hover {
+    background-color: #66b3ff;
 }
 
 .line-numbers {
     flex-shrink: 0;
     width: 30px;
-    overflow-y: hidden;
     padding: 10px 5px;
     background: var(--primary-color);
     color: var(--font-color-light);
     text-align: right;
     user-select: none;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-y: hidden;
+}
+
+.line-numbers div {
+    padding-right: 5px;
 }
 
 .text-content {
     flex-grow: 1;
     padding: 10px;
     white-space: pre-wrap;
-    overflow: auto;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 #body {
     display: flex;
     flex-direction: row;
+    height: 100%;
 }
 
-#body .text-content {
+#bodyContent {
     flex-grow: 1;
+    padding: 10px;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: var(--secondary-color);
+    border-left: 1px solid var(--tertiary-color);
 }
 
-.add-param-btn {
-    margin-top: 10px;
-    align-self: flex-start;
+#responseBody {
+    display: flex;
+    flex-direction: row;
+}
+
+.text-content {
+    flex-grow: 1;
+    padding: 10px;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 #responseHeaderContent {
@@ -231,17 +383,179 @@ button:hover {
 }
 
 .send-icon {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     margin-left: 8px;
     filter: brightness(0) saturate(100%) invert(100%);
 }
 
-/* Add this new rule for the glow effect */
 .glow {
     transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .glow:hover, .glow:focus {
     box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
+}
+
+.select-backdrop {
+    position: absolute;
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 4px;
+    z-index: 9;
+    display: none;
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.select-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    opacity: 0;
+    transition: height 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.select-wrapper:focus-within::after {
+    height: 120px;
+    opacity: 1;
+}
+
+.custom-select {
+    position: relative;
+    display: inline-block;
+    min-width: 100px;
+}
+
+.select-selected {
+    background-color: rgba(30, 30, 30, 0.6);
+    color: var(--font-color);
+    padding: 8px 30px 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.select-selected:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: var(--font-color) transparent transparent transparent;
+    transform: translateY(-25%);
+}
+
+.select-items {
+    position: absolute;
+    background-color: rgba(30, 30, 30, 0.8);
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    border-radius: 6px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 5px;
+}
+
+.select-items div {
+    color: var(--font-color);
+    padding: 10px 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    background-color: transparent;
+}
+
+.select-items div:hover {
+    background-color: rgba(77, 166, 255, 0.2);
+}
+
+.select-hide {
+    display: none;
+}
+
+.select-selected:hover, .select-items div:hover {
+    background-color: rgba(77, 166, 255, 0.2);
+}
+
+input[type="text"] {
+    flex-grow: 1;
+    background-color: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: var(--font-color);
+    padding: 8px 12px;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #66b3ff;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 10px;
+    background-color: rgba(30, 30, 30, 0.6);
+    border-radius: 6px;
+    padding: 5px;
+}
+
+.tab {
+    padding: 8px 16px;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    color: var(--font-color-light);
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.opaque-bg {
+    background-color: rgba(30, 30, 30, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
 }
