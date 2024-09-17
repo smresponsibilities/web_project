@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postie</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-image: url('backgroundgrid.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -51,17 +60,16 @@
                 </div>
                 <div class="tab-content" id="body" style="display: none;">
                     <div class="line-numbers" id="inputLineNumbers"></div>
-                    <div class="text-content" id="bodyContent" contenteditable="true">
-                        {
-                            "temperature": 0.0,
-                            "humidity": 0.0,
-                            "moisture": 0.0,
-                            "soilType": 0,
-                            "cropType": 0,
-                            "nitrogen": 0,
-                            "potassium": 0,
-                            "phosphorous": 0
-                        }
+                    <div class="text-content" id="bodyContent" contenteditable="true">{
+    "temperature": 0.0,
+    "humidity": 0.0,
+    "moisture": 0.0,
+    "soilType": 0,
+    "cropType": 0,
+    "nitrogen": 0,
+    "potassium": 0,
+    "phosphorous": 0
+}
                     </div>
                 </div>
             </div>

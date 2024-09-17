@@ -3,7 +3,7 @@
     --secondary-color: #252525;
     --tertiary-color: #2d2d2d;
     --quaternary-color: #333333;
-    --accent-color: #4a90e2;
+    --accent-color: #4da6ff; /* Brighter blue */
     --background-color: #121212;
     --text-color: #e0e0e0;
     --font-color: #f0f0f0;
@@ -105,10 +105,12 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-    background: #3a7bc8;
+    background: #66b3ff; /* Lighter blue on hover */
+    box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
 }
 
 .tabs {
@@ -128,12 +130,19 @@ button:hover {
     border-radius: 4px 4px 0 0;
     color: var(--font-color-light);
     border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab:hover {
+    background-color: var(--quaternary-color);
+    box-shadow: 0 0 10px rgba(77, 166, 255, 0.3);
 }
 
 .tab.active {
     background: var(--quaternary-color);
     color: var(--accent-color);
     border-bottom: 2px solid var(--accent-color);
+    box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
 }
 
 .opaque-bg {
@@ -226,4 +235,13 @@ button:hover {
     height: 20px;
     margin-left: 8px;
     filter: brightness(0) saturate(100%) invert(100%);
+}
+
+/* Add this new rule for the glow effect */
+.glow {
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.glow:hover, .glow:focus {
+    box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
 }
