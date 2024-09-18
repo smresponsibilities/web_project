@@ -559,3 +559,35 @@ button:hover {
     padding: 15px;
     margin-bottom: 20px;
 }
+
+.response-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.response-info span {
+    margin-right: 10px;
+}
+
+.response-info .separator {
+    color: var(--font-color-light);
+    margin: 0 10px;
+}
+
+.response-info #status {
+    font-weight: bold;
+}
+
+.status-2xx {
+    color: #4CAF50; /* Green */
+}
+
+.status-3xx {
+    color: #FFC107; /* Yellow */
+}
+
+.status-4xx, .status-5xx {
+    color: #F44336; /* Red */
+}

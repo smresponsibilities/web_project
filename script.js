@@ -39,24 +39,66 @@ function sendRequest() {
     console.log('Headers:', headers);
     console.log('Body:', body);
 
-    setTimeout(() => {
-        document.getElementById('status').textContent = 'Status: 200';
-        document.getElementById('time').textContent = 'Time: 200 ms';
-        document.getElementById('size').textContent = 'Size: 96B';
-        document.getElementById('responseBodyContent').textContent = '{\n    "Fertilizername": "20-20"\n}';
+    // Show loading state
+    document.getElementById('status').textContent = 'Status: Loading...';
+    document.getElementById('time').textContent = 'Time: Calculating...';
+    document.getElementById('size').textContent = 'Size: Calculating...';
+    document.getElementById('responseBodyContent').textContent = 'Loading...';
+    document.getElementById('responseHeaderContent').textContent = 'Loading...';
+
+    const startTime = Date.now();
+
+    fetch(urlWithParams.toString(), {
+        method: method,
+        headers: headers,
+        body: method !== 'GET' && method !== 'HEAD' ? body : null
+    })
+    .then(response => {
+        const endTime = Date.now();
+        const timeElapsed = endTime - startTime;
+
+        const statusElement = document.getElementById('status');
+        statusElement.textContent = `Status: ${response.status} ${response.statusText}`;
         
-        const responseHeaders = {
-            'Content-Type': 'application/json',
-            'Server': 'Postie/1.0',
-            'Date': new Date().toUTCString()
-        };
-        document.getElementById('responseHeaderContent').textContent = 
-            Object.entries(responseHeaders)
-                .map(([key, value]) => `${key}: ${value}`)
-                .join('\n');
+        statusElement.className = '';
+        if (response.status >= 200 && response.status < 300) {
+            statusElement.classList.add('status-2xx');
+        } else if (response.status >= 300 && response.status < 400) {
+            statusElement.classList.add('status-3xx');
+        } else if (response.status >= 400 && response.status < 600) {
+            statusElement.classList.add(response.status < 500 ? 'status-4xx' : 'status-5xx');
+        }
+
+        document.getElementById('time').textContent = `Time: ${timeElapsed} ms`;
+
+        // Extract and display response headers
+        const responseHeaders = Array.from(response.headers.entries())
+            .map(([key, value]) => `${key}: ${value}`)
+            .join('\n');
+        document.getElementById('responseHeaderContent').textContent = responseHeaders;
+
+        return response.text().then(text => ({ text, response }));
+    })
+    .then(({ text, response }) => {
+        document.getElementById('size').textContent = `Size: ${text.length} B`;
+        
+
+        try {
+            const jsonResponse = JSON.parse(text);
+            document.getElementById('responseBodyContent').textContent = JSON.stringify(jsonResponse, null, 2);
+        } catch (e) {
+            document.getElementById('responseBodyContent').textContent = text;
+        }
 
         showResponseTab(document.querySelector('.tab[onclick*="responseBody"]'), 'responseBody');
-    }, 500);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        const statusElement = document.getElementById('status');
+        statusElement.textContent = 'Status: Error';
+        statusElement.className = 'status-5xx'; 
+        document.getElementById('responseBodyContent').textContent = `Error: ${error.message}`;
+    });
 }
 
 function showHistory() {
@@ -69,7 +111,7 @@ function updateLineNumbers(lineNumbersId, contentId) {
     const lines = content.innerText.split('\n');
     lineNumbers.innerHTML = lines.map((_, index) => `<div>${index + 1}</div>`).join('');
 
-    // Synchronize scrolling
+
     content.onscroll = () => {
         lineNumbers.scrollTop = content.scrollTop;
     };
