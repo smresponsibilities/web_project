@@ -39,7 +39,7 @@ function sendRequest() {
     console.log('Headers:', headers);
     console.log('Body:', body);
 
-    // Show loading state
+
     document.getElementById('status').textContent = 'Status: Loading...';
     document.getElementById('time').textContent = 'Time: Calculating...';
     document.getElementById('size').textContent = 'Size: Calculating...';
@@ -48,11 +48,21 @@ function sendRequest() {
 
     const startTime = Date.now();
 
-    fetch(urlWithParams.toString(), {
+
+    const requestOptions = {
         method: method,
-        headers: headers,
-        body: method !== 'GET' && method !== 'HEAD' ? body : null
-    })
+        headers: {
+            'Content-Type': 'application/json',
+            ...headers
+        }
+    };
+
+
+    if (method !== 'GET' && method !== 'HEAD') {
+        requestOptions.body = body;
+    }
+
+    fetch(urlWithParams.toString(), requestOptions)
     .then(response => {
         const endTime = Date.now();
         const timeElapsed = endTime - startTime;
@@ -71,7 +81,7 @@ function sendRequest() {
 
         document.getElementById('time').textContent = `Time: ${timeElapsed} ms`;
 
-        // Extract and display response headers
+
         const responseHeaders = Array.from(response.headers.entries())
             .map(([key, value]) => `${key}: ${value}`)
             .join('\n');

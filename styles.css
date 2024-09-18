@@ -581,13 +581,40 @@ button:hover {
 }
 
 .status-2xx {
-    color: #4CAF50; /* Green */
+    color: #4CAF50; 
 }
 
 .status-3xx {
-    color: #FFC107; /* Yellow */
+    color: #FFC107; 
 }
 
 .status-4xx, .status-5xx {
-    color: #F44336; /* Red */
+    color: #F44336; 
+}
+
+.response .opaque-bg {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px; 
+}
+
+.response .content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.response .tab-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.response .text-content {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 100px; 
+    max-height: 100%; 
 }
