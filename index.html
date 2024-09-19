@@ -28,7 +28,7 @@
     </nav>
 
     <div class="container">
-        <div class="input-group">
+        <div class="url-input-group">
             <div class="custom-select">
                 <div class="select-selected">GET</div>
                 <div class="select-items select-hide">
@@ -45,18 +45,18 @@
                 <img src="sendlogo.png" alt="Send icon" class="send-icon">
             </button>
         </div>
-        <div class="opaque-bg">
+        <div class="request-panel opaque-bg">
             <div class="tabs">
-                <div class="tab glow active" onclick="showTab(this, 'queryParams')">Query Params</div>
+                <div class="tab glow active" onclick="showTab(this, 'query-params')">Query Params</div>
                 <div class="tab glow" onclick="showTab(this, 'headers')">Headers</div>
-                <div class="tab glow" onclick="showTab(this, 'body')">Body</div>
+                <div class="tab glow" onclick="showTab(this, 'request-body')">Body</div>
             </div>
             <div class="content-area">
-                <div class="tab-content" id="queryParams">
+                <div class="tab-content" id="query-params">
                     <div class="scrollable-content">
                         <div class="key-value-pairs"></div>
                     </div>
-                    <button class="add-param-btn glow" onclick="addKeyValuePair('queryParams')">Add Query Param</button>
+                    <button class="add-param-btn glow" onclick="addKeyValuePair('query-params')">Add Query Param</button>
                 </div>
                 <div class="tab-content" id="headers" style="display: none;">
                     <div class="scrollable-content">
@@ -64,7 +64,7 @@
                     </div>
                     <button class="add-param-btn glow" onclick="addKeyValuePair('headers')">Add Header</button>
                 </div>
-                <div class="tab-content" id="body" style="display: none;">
+                <div class="tab-content" id="request-body" style="display: none;">
                     <div class="line-numbers" id="inputLineNumbers"></div>
                     <div class="text-content" id="bodyContent" contenteditable="true">{
     "temperature": 0.0,
@@ -89,21 +89,21 @@
                 <span class="separator">|</span>
                 <span id="size">Size: 96B</span>
             </div>
-            <div class="opaque-bg">
+            <div class="response-panel opaque-bg">
                 <div class="tabs">
-                    <div class="tab glow active" onclick="showResponseTab(this, 'responseBody')">Response Body</div>
-                    <div class="tab glow" onclick="showResponseTab(this, 'responseHeader')">Response Header</div>
+                    <div class="tab glow active" onclick="showResponseTab(this, 'response-body')">Response Body</div>
+                    <div class="tab glow" onclick="showResponseTab(this, 'response-header')">Response Header</div>
                 </div>
                 <div class="content-area">
     
-                    <div class="tab-content" id="responseBody">
+                    <div class="tab-content" id="response-body">
                         <div class="text-content" id="responseBodyContent">
 {
     "Fertilizername": "20-20"
 }
                         </div>
                     </div>
-                    <div class="tab-content" id="responseHeader" style="display: none;">
+                    <div class="tab-content" id="response-header" style="display: none;">
                         <div class="text-content" id="responseHeaderContent"></div>
                     </div>
                 </div>

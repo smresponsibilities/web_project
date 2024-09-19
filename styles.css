@@ -2,7 +2,7 @@
     --primary-color: #1a1a1a;
     --secondary-color: #252525;
     --tertiary-color: #2d2d2d;
-    --quaternary-color: #333333;
+    --quaternary-color: #333;
     --accent-color: #4da6ff;
     --background-color: #121212;
     --text-color: #e0e0e0;
@@ -85,8 +85,6 @@ nav {
 
 select {
     appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     background-color: rgba(255, 255, 255, 0.1);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -97,8 +95,6 @@ select {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
 }
 
@@ -129,11 +125,6 @@ select::-webkit-scrollbar-thumb {
 select {
     scrollbar-width: thin;
     scrollbar-color: var(--accent-color) rgba(255, 255, 255, 0.1);
-}
-
-select {
-    position: relative;
-    z-index: 10;
 }
 
 select, input, button {
@@ -184,10 +175,6 @@ button:hover {
 .tab {
     padding: 10px 20px;
     background: var(--tertiary-color);
-    backdrop-filter: var(--glass-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-backdrop-filter);
-    border: var(--glass-border);
-    box-shadow: var(--glass-shadow);
     cursor: pointer;
     margin-right: 5px;
     border-radius: 4px 4px 0 0;
@@ -210,10 +197,6 @@ button:hover {
 
 .opaque-bg {
     background: var(--glass-background);
-    backdrop-filter: var(--glass-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-backdrop-filter);
-    border: var(--glass-border);
-    box-shadow: var(--glass-shadow);
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -351,16 +334,6 @@ button:hover {
     flex-direction: row;
 }
 
-.text-content {
-    flex-grow: 1;
-    padding: 10px;
-    white-space: pre-wrap;
-    overflow-y: auto;
-    font-family: monospace;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
 #responseHeaderContent {
     white-space: pre-wrap;
     font-family: monospace;
@@ -387,10 +360,6 @@ button:hover {
     height: 16px;
     margin-left: 8px;
     filter: brightness(0) saturate(100%) invert(100%);
-}
-
-.glow {
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .glow:hover, .glow:focus {
@@ -514,20 +483,6 @@ input[type="text"] {
     padding: 8px 12px;
 }
 
-button {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #66b3ff;
-}
-
 .tabs {
     display: flex;
     margin-bottom: 10px;
@@ -617,4 +572,38 @@ button:hover {
     overflow-y: auto;
     min-height: 100px; 
     max-height: 100%; 
+}
+
+.url-input-group {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.request-panel, .response-panel {
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#request-body {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+#response-body {
+    display: flex;
+    flex-direction: row;
+}
+
+.response .response-panel {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px; 
 }

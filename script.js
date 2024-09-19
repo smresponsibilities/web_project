@@ -3,31 +3,40 @@ function showTab(clickedTab, tabName) {
     Array.from(tabs).forEach(tab => tab.classList.remove('active'));
     clickedTab.classList.add('active');
 
-    const tabContents = clickedTab.closest('.opaque-bg').getElementsByClassName('tab-content');
+    const tabContents = clickedTab.closest('.request-panel').getElementsByClassName('tab-content');
     Array.from(tabContents).forEach(content => content.style.display = 'none');
     document.getElementById(tabName).style.display = 'flex';
 
-    if (tabName === 'body') {
+    if (tabName === 'request-body') {
         updateLineNumbers('inputLineNumbers', 'bodyContent');
     }
 }
 
 function showResponseTab(clickedTab, tabName) {
-    const tabs = clickedTab.parentElement.getElementsByClassName('tab');
+    if (!clickedTab) {
+        console.error('Clicked tab is null');
+        return;
+    }
+    const tabs = clickedTab.closest('.tabs').getElementsByClassName('tab');
     Array.from(tabs).forEach(tab => tab.classList.remove('active'));
     clickedTab.classList.add('active');
     
-    const tabContents = clickedTab.closest('.opaque-bg').getElementsByClassName('tab-content');
+    const tabContents = clickedTab.closest('.response-panel').getElementsByClassName('tab-content');
     Array.from(tabContents).forEach(content => content.style.display = 'none');
-    document.getElementById(tabName).style.display = 'flex'; // Remove the extra parenthesis
+    const selectedContent = document.getElementById(tabName);
+    if (selectedContent) {
+        selectedContent.style.display = 'flex';
+    } else {
+        console.error(`Tab content with id '${tabName}' not found`);
+    }
 }
 
 function sendRequest() {
     const method = document.querySelector('.select-selected').textContent;
     const url = document.getElementById('url').value;
-    const queryParams = getKeyValuePairs('queryParams');
+    const queryParams = getKeyValuePairs('query-params');
     const headers = getKeyValuePairs('headers');
-    const body = document.getElementById('bodyContent').textContent;
+    let body = document.getElementById('bodyContent').textContent.trim();
 
     const urlWithParams = new URL(url);
     Object.keys(queryParams).forEach(key => 
@@ -37,9 +46,11 @@ function sendRequest() {
     console.log('Method:', method);
     console.log('URL:', urlWithParams.toString());
     console.log('Headers:', headers);
-    console.log('Body:', body);
+    if (method !== 'GET' && method !== 'DELETE') {
+        console.log('Body:', body);
+    }
 
-
+  
     document.getElementById('status').textContent = 'Status: Loading...';
     document.getElementById('time').textContent = 'Time: Calculating...';
     document.getElementById('size').textContent = 'Size: Calculating...';
@@ -48,19 +59,36 @@ function sendRequest() {
 
     const startTime = Date.now();
 
-
     const requestOptions = {
         method: method,
         headers: {
-            'Content-Type': 'application/json',
             ...headers
         }
     };
 
+    if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
+        requestOptions.headers['Content-Type'] = 'application/json';
 
-    if (method !== 'GET' && method !== 'HEAD') {
-        requestOptions.body = body;
+        try {
+            body = JSON.parse(body);
+        } catch (e) {
+           
+            try {
+                
+                body = body.replace(/'/g, '"');
+   
+                body = body.replace(/(\w+):/g, '"$1":');
+                body = JSON.parse(body);
+            } catch (e) {
+                console.error('Invalid JSON in request body');
+                alert('Invalid JSON in request body. Please check your input.');
+                return;
+            }
+        }
+        requestOptions.body = JSON.stringify(body);
     }
+
+    console.log('Sending request:', method, url, requestOptions);
 
     fetch(urlWithParams.toString(), requestOptions)
     .then(response => {
@@ -92,7 +120,6 @@ function sendRequest() {
     .then(({ text, response }) => {
         document.getElementById('size').textContent = `Size: ${text.length} B`;
         
-
         try {
             const jsonResponse = JSON.parse(text);
             document.getElementById('responseBodyContent').textContent = JSON.stringify(jsonResponse, null, 2);
@@ -100,7 +127,12 @@ function sendRequest() {
             document.getElementById('responseBodyContent').textContent = text;
         }
 
-        showResponseTab(document.querySelector('.tab[onclick*="responseBody"]'), 'responseBody');
+        const responseBodyTab = document.querySelector('.response-panel .tab[onclick*="response-body"]');
+        if (responseBodyTab) {
+            showResponseTab(responseBodyTab, 'response-body');
+        } else {
+            console.error('Response body tab not found');
+        }
     })
     .catch(error => {
         console.error('Error:', error);
@@ -109,6 +141,8 @@ function sendRequest() {
         statusElement.className = 'status-5xx'; 
         document.getElementById('responseBodyContent').textContent = `Error: ${error.message}`;
     });
+
+   
 }
 
 function showHistory() {
@@ -168,9 +202,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('bodyContent').addEventListener('input', () => updateLineNumbers('inputLineNumbers', 'bodyContent'));
 
-    showTab(document.querySelector('.tab'), 'queryParams');
+    showTab(document.querySelector('.tab'), 'query-params');
 
-    addKeyValuePair('queryParams');
+    addKeyValuePair('query-params');
     addKeyValuePair('headers');
 });
 
