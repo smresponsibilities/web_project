@@ -5,6 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postie - Request History</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-image: url('backgroundgrid.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .history-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+        .history-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .history-item-content {
+            flex-grow: 1;
+        }
+        .history-item-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        #historyDetails {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 25px;
+            margin-top: 25px;
+            border-radius: 15px;
+            display: none;
+            animation: slideDown 0.5s ease-out;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+        button {
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -16,8 +90,53 @@
     </nav>
     <div class="container">
         <h1>Request History</h1>
-        <!-- Add your history content here -->
+        <div id="historyContainer"></div>
+        <div id="historyDetails"></div>
     </div>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadHistory);
+
+        function hideHistoryDetails() {
+            const details = document.getElementById('historyDetails');
+            details.style.animation = 'slideDown 0.5s ease-out reverse';
+            setTimeout(() => {
+                details.style.display = 'none';
+                details.style.animation = '';
+            }, 500);
+        }
+
+        function deleteHistoryItem(index) {
+            let history = JSON.parse(localStorage.getItem('requestHistory') || '[]');
+            history.splice(index, 1);
+            localStorage.setItem('requestHistory', JSON.stringify(history));
+            loadHistory();
+        }
+
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('requestHistory') || '[]');
+            const historyContainer = document.getElementById('historyContainer');
+            historyContainer.innerHTML = '';
+
+            history.forEach((item, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.style.animationDelay = `${index * 0.1}s`;
+                historyItem.innerHTML = `
+                    <div class="history-item-content">
+                        <h3>${item.method} ${item.url}</h3>
+                        <p>Status: ${item.status}</p>
+                        <p>Time: ${item.time}</p>
+                        <p>Date: ${new Date(item.timestamp).toLocaleString()}</p>
+                    </div>
+                    <div class="history-item-buttons">
+                        <button onclick="showHistoryDetails(${index})" class="glow">Show Details</button>
+                        <button onclick="deleteHistoryItem(${index})" class="glow delete-btn">Delete</button>
+                    </div>
+                `;
+                historyContainer.appendChild(historyItem);
+            });
+        }
+    </script>
 </body>
 </html>

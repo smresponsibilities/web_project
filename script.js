@@ -133,6 +133,18 @@ function sendRequest() {
         } else {
             console.error('Response body tab not found');
         }
+
+        
+        if (response.ok) {
+            saveToHistory(
+                method,
+                urlWithParams.toString(),
+                requestOptions.body || '',
+                text,
+                response.status,
+                document.getElementById('time').textContent.split(': ')[1]
+            );
+        }
     })
     .catch(error => {
         console.error('Error:', error);
@@ -243,4 +255,61 @@ function initializeCustomSelect() {
             selectSelected.classList.remove("select-arrow-active");
         }
     });
+}
+
+function saveToHistory(method, url, requestBody, responseBody, status, time) {
+    let history = JSON.parse(localStorage.getItem('requestHistory') || '[]');
+    history.unshift({
+        method,
+        url,
+        requestBody,
+        responseBody,
+        status,
+        time,
+        timestamp: new Date().toISOString()
+    });
+ 
+    history = history.slice(0, 50);
+    localStorage.setItem('requestHistory', JSON.stringify(history));
+}
+
+function loadHistory() {
+    const history = JSON.parse(localStorage.getItem('requestHistory') || '[]');
+    const historyContainer = document.getElementById('historyContainer');
+    historyContainer.innerHTML = '';
+
+    history.forEach((item, index) => {
+        const historyItem = document.createElement('div');
+        historyItem.className = 'history-item';
+        historyItem.innerHTML = `
+            <h3>${item.method} ${item.url}</h3>
+            <p>Status: ${item.status}</p>
+            <p>Time: ${item.time}</p>
+            <p>Date: ${new Date(item.timestamp).toLocaleString()}</p>
+            <button onclick="showHistoryDetails(${index})">Show Details</button>
+        `;
+        historyContainer.appendChild(historyItem);
+    });
+}
+
+function showHistoryDetails(index) {
+    const history = JSON.parse(localStorage.getItem('requestHistory') || '[]');
+    const item = history[index];
+    const detailsContainer = document.getElementById('historyDetails');
+    detailsContainer.innerHTML = `
+        <h2>Request Details</h2>
+        <p><strong>Method:</strong> ${item.method}</p>
+        <p><strong>URL:</strong> ${item.url}</p>
+        <p><strong>Status:</strong> ${item.status}</p>
+        <p><strong>Time:</strong> ${item.time}</p>
+        <p><strong>Date:</strong> ${new Date(item.timestamp).toLocaleString()}</p>
+        <h3>Request Body:</h3>
+        <pre>${item.requestBody}</pre>
+        <h3>Response Body:</h3>
+        <pre>${item.responseBody}</pre>
+        <div class="button-container">
+            <button onclick="hideHistoryDetails()" class="glow">Hide Details</button>
+        </div>
+    `;
+    detailsContainer.style.display = 'block';
 }
