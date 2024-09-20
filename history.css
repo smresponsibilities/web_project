@@ -1,0 +1,126 @@
+body {
+    background-image: url('backgroundgrid.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.history-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+}
+.history-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.history-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.history-item-buttons {
+    display: flex;
+    gap: 10px;
+}
+.history-details {
+    background-color: rgba(0, 0, 0, 0.3); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 25px;
+    margin-top: 15px;
+    border-radius: 15px;
+    display: none;
+    animation: slideDown 0.5s ease-out;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 8px;
+}
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+button {
+    transition: all 0.3s ease;
+}
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#searchInput {
+    flex-grow: 1;
+    margin-right: 10px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--font-color);
+    font-size: 16px;
+}
+#searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+#searchInput:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(77, 166, 255, 0.5);
+}
+
+.clear-history-btn {
+    padding: 10px 15px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clear-history-btn:hover {
+    background-color: #ff3333;
+}
+
+.duplicate-btn {
+    background-color: #4CAF50;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: none;  
+}
+
+.duplicate-btn:hover, .duplicate-btn:focus {
+    background-color: #45a049;
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);  
+}
+
+.duplicate-btn:focus {
+    outline: none;
+}

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postie</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="logo.png">
     <style>
         body {
             background-image: url('backgroundgrid.jpg');
@@ -39,12 +40,13 @@
                     <div>DELETE</div>
                 </div>
             </div>
-            <input type="text" id="url" class="glow" value="https://fertilizertypebysm.onrender.com/fertilizername" />
-            <button class="glow" onclick="sendRequest()">
+            <input type="text" id="url" class="glow" placeholder="Enter API URL" />
+            <button class="send-btn glow" onclick="sendRequest()">
                 Send
                 <img src="sendlogo.png" alt="Send icon" class="send-icon">
             </button>
         </div>
+
         <div class="request-panel opaque-bg">
             <div class="tabs">
                 <div class="tab glow active" onclick="showTab(this, 'query-params')">Query Params</div>
@@ -66,28 +68,19 @@
                 </div>
                 <div class="tab-content" id="request-body" style="display: none;">
                     <div class="line-numbers" id="inputLineNumbers"></div>
-                    <div class="text-content" id="bodyContent" contenteditable="true">{
-    "temperature": 0.0,
-    "humidity": 0.0,
-    "moisture": 0.0,
-    "soilType": 0,
-    "cropType": 0,
-    "nitrogen": 0,
-    "potassium": 0,
-    "phosphorous": 0
-}
-                    </div>
+                    <div class="text-content" id="bodyContent" contenteditable="true"></div>
                 </div>
             </div>
         </div>
+
         <div class="response">
             <h2>Response</h2>
             <div class="response-info">
-                <span id="status">Status: 200</span>
+                <span id="status">Status: -</span>
                 <span class="separator">|</span>
-                <span id="time">Time: 1200 ms</span>
+                <span id="time">Time: -</span>
                 <span class="separator">|</span>
-                <span id="size">Size: 96B</span>
+                <span id="size">Size: -</span>
             </div>
             <div class="response-panel opaque-bg">
                 <div class="tabs">
@@ -95,13 +88,8 @@
                     <div class="tab glow" onclick="showResponseTab(this, 'response-header')">Response Header</div>
                 </div>
                 <div class="content-area">
-    
                     <div class="tab-content" id="response-body">
-                        <div class="text-content" id="responseBodyContent">
-{
-    "Fertilizername": "20-20"
-}
-                        </div>
+                        <div class="text-content" id="responseBodyContent"></div>
                     </div>
                     <div class="tab-content" id="response-header" style="display: none;">
                         <div class="text-content" id="responseHeaderContent"></div>
@@ -110,6 +98,16 @@
             </div>
         </div>
     </div>
-    <script async src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bodyContent = document.getElementById('bodyContent');
+            const savedState = localStorage.getItem('currentState');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                bodyContent.textContent = state.body || '';
+            }
+        });
+    </script>
+    <script src="script.js"></script>
 </body>
 </html>

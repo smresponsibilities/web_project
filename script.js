@@ -32,6 +32,7 @@ function showResponseTab(clickedTab, tabName) {
 }
 
 function sendRequest() {
+    saveCurrentState();
     const method = document.querySelector('.select-selected').textContent;
     const url = document.getElementById('url').value;
     const queryParams = getKeyValuePairs('query-params');
@@ -173,20 +174,24 @@ function updateLineNumbers(lineNumbersId, contentId) {
     };
 }
 
-function addKeyValuePair(tabId) {
+function addKeyValuePair(tabId, key = '', value = '') {
     const container = document.querySelector(`#${tabId} .key-value-pairs`);
-    const newPair = document.createElement('div');
-    newPair.className = 'key-value-pair';
-    newPair.innerHTML = `
-        <input type="text" class="key glow" placeholder="Key">
-        <input type="text" class="value glow" placeholder="Value">
-        <button class="delete-btn glow" onclick="deleteKeyValuePair(this)">Delete</button>
-    `;
-    container.appendChild(newPair);
+    if (container) {
+        const newPair = document.createElement('div');
+        newPair.className = 'key-value-pair';
+        newPair.innerHTML = `
+            <input type="text" class="key glow" placeholder="Key" value="${key}">
+            <input type="text" class="value glow" placeholder="Value" value="${value}">
+            <button class="delete-btn glow" onclick="deleteKeyValuePair(this)">Delete</button>
+        `;
+        container.appendChild(newPair);
+        saveAllInputs();
+    }
 }
 
 function deleteKeyValuePair(button) {
     button.closest('.key-value-pair').remove();
+    saveAllInputs();
 }
 
 function getKeyValuePairs(tabId) {
@@ -218,6 +223,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addKeyValuePair('query-params');
     addKeyValuePair('headers');
+
+    
+    loadSavedState();
+
+  
+    document.getElementById('url').addEventListener('input', saveCurrentState);
+    document.getElementById('bodyContent').addEventListener('input', saveCurrentState);
+    document.querySelector('.custom-select').addEventListener('click', saveCurrentState);
+
+    ['query-params', 'headers'].forEach(tabId => {
+        const container = document.querySelector(`#${tabId} .key-value-pairs`);
+        if (container) {
+            container.addEventListener('input', saveCurrentState);
+        }
+    });
+
+    loadDuplicatedRequest();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -246,6 +268,7 @@ function initializeCustomSelect() {
             selectSelected.textContent = selectedValue;
             selectItems.classList.add("select-hide");
             selectSelected.classList.remove("select-arrow-active");
+            saveAllInputs();
         });
     }
 
@@ -312,4 +335,151 @@ function showHistoryDetails(index) {
         </div>
     `;
     detailsContainer.style.display = 'block';
+}
+
+
+function saveCurrentState() {
+    const method = document.querySelector('.select-selected').textContent;
+    const url = document.getElementById('url').value;
+    const queryParams = getKeyValuePairs('query-params');
+    const headers = getKeyValuePairs('headers');
+    const body = document.getElementById('bodyContent').textContent;
+
+    const currentState = {
+        method,
+        url,
+        queryParams,
+        headers,
+        body
+    };
+
+    localStorage.setItem('currentState', JSON.stringify(currentState));
+}
+
+
+function loadSavedState() {
+    const savedState = localStorage.getItem('currentState');
+    if (savedState) {
+        const state = JSON.parse(savedState);
+        
+        
+        const selectSelected = document.querySelector('.select-selected');
+        if (selectSelected) {
+            selectSelected.textContent = state.method;
+        }
+        
+       
+        const urlInput = document.getElementById('url');
+        if (urlInput) {
+            urlInput.value = state.url;
+        }
+        
+        
+        const queryParamsContainer = document.querySelector('#query-params .key-value-pairs');
+        if (queryParamsContainer) {
+            queryParamsContainer.innerHTML = '';
+            Object.entries(state.queryParams).forEach(([key, value]) => {
+                addKeyValuePair('query-params', key, value);
+            });
+        }
+        
+      
+        const headersContainer = document.querySelector('#headers .key-value-pairs');
+        if (headersContainer) {
+            headersContainer.innerHTML = '';
+            Object.entries(state.headers).forEach(([key, value]) => {
+                addKeyValuePair('headers', key, value);
+            });
+        }
+        
+        
+        const bodyContent = document.getElementById('bodyContent');
+        if (bodyContent) {
+            bodyContent.textContent = state.body;
+        }
+    }
+}
+
+
+function saveAllInputs() {
+    const state = {
+        method: document.querySelector('.select-selected').textContent,
+        url: document.getElementById('url').value,
+        queryParams: getKeyValuePairs('query-params'),
+        headers: getKeyValuePairs('headers'),
+        body: document.getElementById('bodyContent').textContent
+    };
+    localStorage.setItem('postieState', JSON.stringify(state));
+}
+
+
+function loadAllInputs() {
+    const savedState = localStorage.getItem('postieState');
+    if (savedState) {
+        const state = JSON.parse(savedState);
+        
+        
+        document.querySelector('.select-selected').textContent = state.method;
+        
+     
+        document.getElementById('url').value = state.url;
+        
+        
+        const queryParamsContainer = document.querySelector('#query-params .key-value-pairs');
+        queryParamsContainer.innerHTML = '';
+        Object.entries(state.queryParams).forEach(([key, value]) => {
+            addKeyValuePair('query-params', key, value);
+        });
+        
+        
+        const headersContainer = document.querySelector('#headers .key-value-pairs');
+        headersContainer.innerHTML = '';
+        Object.entries(state.headers).forEach(([key, value]) => {
+            addKeyValuePair('headers', key, value);
+        });
+        
+        
+        document.getElementById('bodyContent').textContent = state.body;
+    }
+}
+
+
+window.onload = loadAllInputs;
+
+function loadDuplicatedRequest() {
+    const duplicatedRequest = localStorage.getItem('duplicatedRequest');
+    if (duplicatedRequest) {
+        const state = JSON.parse(duplicatedRequest);
+        
+        // Set method
+        document.querySelector('.select-selected').textContent = state.method;
+        
+        // Set URL
+        document.getElementById('url').value = state.url;
+        
+        // Set body
+        document.getElementById('bodyContent').textContent = state.body;
+        
+        // Set query params
+        const queryParamsContainer = document.querySelector('#query-params .key-value-pairs');
+        queryParamsContainer.innerHTML = '';
+        Object.entries(state.queryParams).forEach(([key, value]) => {
+            addKeyValuePair('query-params', key, value);
+        });
+        
+        // Set headers
+        const headersContainer = document.querySelector('#headers .key-value-pairs');
+        headersContainer.innerHTML = '';
+        Object.entries(state.headers).forEach(([key, value]) => {
+            addKeyValuePair('headers', key, value);
+        });
+        
+        // Clear the duplicated request from localStorage
+        localStorage.removeItem('duplicatedRequest');
+        
+        // Update the UI
+        updateLineNumbers('inputLineNumbers', 'bodyContent');
+        showTab(document.querySelector('.tab'), 'query-params');
+        saveCurrentState();
+    }
 }
