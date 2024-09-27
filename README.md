@@ -1,144 +1,75 @@
-# web_project
+# Postie 
 
-A brief description of what this project does and who it's for
+Postie is a lightweight, browser-based API testing tool inspired by Postman. It allows users to send HTTP requests, view responses, and manage request history, all within a sleek and intuitive interface.
 
 ## Table of Contents
 
-- [Dependencies](#dependencies)
-- [Building the program](#building-the-program)
-- [Run Locally](#run-locally)
 - [Features](#features)
 - [File Structure](#file-structure)
-- [Running Tests](#running-tests)
-- [Demo](#demo)
-- [Roadmap](#roadmap)
-- [Made by](#by)
-## Installation
-
-Install my-project with npm
-
-```bash
-  npm install my-project
-  cd my-project
-```
-    
-## Deployment
-
-To deploy this project run
-
-```bash
-  npm run deploy
-```
-
-
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone https://link-to-project
-```
-
-Go to the project directory
-
-```bash
-  cd my-project
-```
-
-Install dependencies
-
-```bash
-  npm install
-```
-
-Start the server
-
-```bash
-  npm run start
-```
+- [Installation](#installation)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [Technologies Used](#technologies-used)
 
 
 ## Features
 
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
-
-
-## Running Tests
-
-To run tests, run the following command
-
-```bash
-  npm run test
-```
-
-
-## Demo
-
-Insert gif or link to demo
-
-
-## Roadmap
-
-- Additional browser support
-
-- Add more integrations
-
-
-## Usage/Examples
-
-```javascript
-import Component from 'my-project'
-
-function App() {
-  return <Component />
-}
-```
-
-
-## Screenshots
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
-
-## Author
-
-- [@octokatherine](https://www.github.com/octokatherine)
-
-## Color Reference
-
-| Color             | Hex                                                                |
-| ----------------- | ------------------------------------------------------------------ |
-| Example Color | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) #0a192f |
-| Example Color | ![#f8f8f8](https://via.placeholder.com/10/f8f8f8?text=+) #f8f8f8 |
-| Example Color | ![#00b48a](https://via.placeholder.com/10/00b48a?text=+) #00b48a |
-| Example Color | ![#00d1a0](https://via.placeholder.com/10/00b48a?text=+) #00d1a0 |
-
-
-## Tech Stack
-
-**Client:** React, Redux, TailwindCSS
-
-**Server:** Node, Express
-
+- Support for multiple HTTP methods (GET, POST, PUT, PATCH, DELETE)
+- Query params and headers management
+- Request body editor with line numbers
+- Response viewer with body and headers
+- Request history with search functionality
+- Duplicate requests from history
+- Responsive design with a dark theme
 
 ## File Structure
 
-- `wordle.c`: The main program file that is the entry point to the project.
-- `test folder`: The folder that have the unit tests.
-- `README.md`: The README file with project documentation.
-- `include folder`: This contains the header files.
-- `src folder`: This contains actual code of all the modular functions.
-- `wordle.sh`: This contains the neccessary commands to build the program in Linux or in Windows by git bash.
-- `wordle.bat`: This contains the neccessary commands to build the program in Windows.
-## Optimizations
+- `index.html`: Main page of the application
+- `history.html`: Request history page
+- `script.js`: Main JavaScript file for the application logic
+- `history.js`: JavaScript file for history page functionality
+- `styles.css`: Main CSS file for styling
+- `history.css`: Additional CSS for the history page
+- `logo.png`: Application logo
+- `backgroundgrid.jpg`: Background image for the application
+- `historylogo.png`: Icon for the history button
+- `sendlogo.png`: Icon for the send button
 
-What optimizations did you make in your code? E.g. refactors, performance improvements, accessibility
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/smresponsibilities/web_project.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd web_project
+   ```
+3. Open `index.html` in your preferred web browser.
+
+## Usage
+
+1. Enter the API URL in the input field.
+2. Select the HTTP method from the dropdown.
+3. Add query parameters, headers, or request body as needed.
+4. Click the "Send" button to make the request.
+5. View the response in the response panel.
+6. Access request history by clicking the "History" button.
+
+## Screenshots
 
 
-## Lessons Learned
+![alt text](image.png)
+![alt text](image-1.png)
 
-What did you learn while building this project? What challenges did you face and how did you overcome them?
+## Demo
+
+[Demo Video](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
+## Technologies Used
+
+- HTML
+- CSS
+- JavaScript 
+- Local Storage for data persistence
 
