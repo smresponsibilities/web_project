@@ -1,6 +1,10 @@
 # Postie 
 
 Postie is a lightweight, browser-based API testing tool inspired by Postman. It allows users to send HTTP requests, view responses, and manage request history, all within a sleek and intuitive interface.
+To test it you can use any of the following apis made by me:
+   
+   - [Fertilizer Type API](https://github.com/smresponsibilities/fertilizertypeapi.git)
+   - [API Methods](https://github.com/smresponsibilities/apimethods.git)
 
 ## Demo
 
