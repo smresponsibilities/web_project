@@ -4,7 +4,7 @@ Postie is a lightweight, browser-based API testing tool inspired by Postman. It 
 
 ## Demo
 
-![Demo Video](demo.gif)
+![Demo Video](assets/readme/demo.gif)
 
 ## Table of Contents
 
@@ -65,11 +65,11 @@ Postie is a lightweight, browser-based API testing tool inspired by Postman. It 
 ## Screenshots
 
 
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
-![alt text](image-3.png)
-![alt text](image-4.png)
+![alt text](assets/readme/image.png)
+![alt text](assets/readme/image-1.png)
+![alt text](assets/readme/image-2.png)
+![alt text](assets/readme/image-3.png)
+![alt text](assets/readme/image-4.png)
 
 
 
