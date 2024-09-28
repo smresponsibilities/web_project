@@ -102,11 +102,12 @@ button:hover {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .clear-history-btn:hover {
     background-color: #ff3333;
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.8);  
 }
 
 .duplicate-btn {
