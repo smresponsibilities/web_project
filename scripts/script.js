@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateLineNumbers('inputLineNumbers', 'bodyContent');
     });
 
-    updateLineNumbers('inputLineNumbers', 'bodyContent');
+      updateLineNumbers('inputLineNumbers', 'bodyContent');
 
 
     document.getElementById('bodyContent').addEventListener('input', () => updateLineNumbers('inputLineNumbers', 'bodyContent'));
